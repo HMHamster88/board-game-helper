@@ -1,0 +1,39 @@
+<html>
+    <head>
+        <link rel="stylesheet">
+        <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    </head>
+    <body>
+        <div id="app">
+            <button v-on:click="addPlayer">Add Player</button>
+            <button v-on:click="resetScore">Reset Score</button>
+            <table>
+                <tr>
+                    <th>#</th>
+                    <th>Color</th>
+                    <th>Player</th>
+                    <th>Score</th>
+                    <th></th>
+                </tr>
+                <tr v-for="player in game.players" v-bind:key="player.id">
+                    <td>
+                    </td>
+                    <td :bgcolor="player.color">
+                        <input v-model.color="player.color" type="color"/>
+                    </td>
+                    <td>
+                        <input :value="player.name"/>
+                    </td>
+                    <td>
+                        <input v-model.number="player.score" type="number"/>
+                    </td>
+                    <td>
+                        <button v-on:click="removePlayer(player)">Remove</button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <script src="index.js"></script>
+    </body>
+</html>
