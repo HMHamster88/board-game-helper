@@ -1,6 +1,6 @@
 <html>
     <head>
-        <link rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="style.css">
         <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
     </head>
     <body>
@@ -10,13 +10,22 @@
             <table>
                 <tr>
                     <th>#</th>
+                    <th v-if="!game.withoutFromPlayer" v-bind:class="{ active: keyboardState == 'EnterFrom' }">From</th>
+                    <th v-bind:class="{ active: keyboardState == 'EnterTo' }">To</th>
                     <th>Color</th>
                     <th>Player</th>
                     <th>Score</th>
                     <th></th>
                 </tr>
-                <tr v-for="player in game.players" v-bind:key="player.id">
+                <tr v-for="(player, index) in game.players" v-bind:key="player.id">
                     <td>
+                        {{index + 1}}
+                    </td>
+                    <td v-if="!game.withoutFromPlayer">
+                        <input type="radio" name="from" :value="player.id" v-model="game.playerIdFrom">
+                    </td>
+                    <td>
+                        <input type="radio" name="to" :value="player.id" v-model="game.playerIdTo">
                     </td>
                     <td :bgcolor="player.color">
                         <input v-model.color="player.color" type="color"/>
@@ -32,6 +41,20 @@
                     </td>
                 </tr>
             </table>
+            From {{playerFrom ? playerFrom.name : '--'}} to {{playerTo ? playerTo.name : '--'}}
+            <input id="scoreMoveInput" v-model.number="game.scoreMoveValue" type="number" v-bind:class="{ active: keyboardState == 'EnterValue' }"/>
+            <button v-on:click="moveScore()">Move score</button>
+            <br/>
+            Settings
+            <br/>
+            <input type="checkbox" id="keyboardModeCheckbox" v-model="settings.keyboardMode">
+            <label for="keyboardModeCheckbox">Keyboard mode</label>
+            <br/>
+            <input type="checkbox" id="withoutFromPlayer" v-model="game.withoutFromPlayer">
+            <label for="withoutFromPlayer">Without From Player</label>
+            <br/>
+            <input type="checkbox" id="clearScoreValueCheckbox" v-model="settings.clearScoreValue">
+            <label for="clearScoreValueCheckbox">Clear Score Move Value</label>
         </div>
 
         <script src="index.js"></script>
